@@ -2,11 +2,23 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-void op1(){}
+struct pcbNode
+{
+    int parent;
+    struct pcbNode * childlink;
+};
 
-void op2(){}
+/*
+void enterParam(){
+    int length;
+    printf("\n Enter maximum number of processes");
+    scanf("%d", &length);
+}
+*/
 
-void op3(){}
+void createChild(){}
+
+void destroyTheChildren(){}
 
 //void op4(){}
 
@@ -27,7 +39,16 @@ int main(){
 
         if(inp==1){
             printf("Chosen: 1\n");
+            //enterParam();
             //break;
+            int length;
+            printf("\n Enter maximum number of processes");
+            scanf("%d", &length);
+            struct pcbNode *head = malloc(sizeof(length));
+            head->parent = 0;
+            head->childlink=NULL;
+
+
         } else if(inp==2){
             printf("Chosen: 2\n");
             //break;
