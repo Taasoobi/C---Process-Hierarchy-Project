@@ -5,16 +5,22 @@
 struct pcbNode
 {
     int parent;
-    struct pcbNode * childlink;
+    int processIndex;
+    struct pcbNode * child;
 };
 
-/*
 void enterParam(){
-    int length;
+    int n;
     printf("\n Enter maximum number of processes");
-    scanf("%d", &length);
+    scanf("%d", &n);
+    struct pcbNode *mainProcess = malloc(sizeof(n)); //struct pcbNode
+    mainProcess ->parent=NULL;
+    mainProcess ->processIndex = 0;
+    mainProcess ->child = NULL;
+    for(int i = 0; i<n-1; i++){
+        struct pcbNode *process = malloc(sizeof(struct pcbNode));
+    }
 }
-*/
 
 void createChild(){}
 
@@ -35,22 +41,20 @@ int main(){
         printf("\n 2.Create a new Child Process.");
         printf("\n 3.Destroy all Descendants of a Process.");
         printf("\n 4.Quit Program and Free Memory.\n");
+        printf("\n Enter Selection:");
         scanf("%d", &inp);
 
         if(inp==1){
             printf("Chosen: 1\n");
-            //enterParam();
-            //break;
-            int length;
-            printf("\n Enter maximum number of processes");
-            scanf("%d", &length);
-            struct pcbNode *head = malloc(sizeof(length));
-            head->parent = 0;
-            head->childlink=NULL;
+            enterParam();
+            
+            //head->childlink=NULL;
 
 
         } else if(inp==2){
             printf("Chosen: 2\n");
+            printf("\n Enter the Parent Process Index:");
+
             //break;
         } else if(inp==3){
             printf("Chosen: 3\n");
