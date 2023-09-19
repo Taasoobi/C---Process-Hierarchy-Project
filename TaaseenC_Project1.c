@@ -9,22 +9,42 @@ struct pcbNode
     struct pcbNode * child;
 };
 
+typedef struct pcbNode PCB;
+
 void enterParam(){
     int n;
-    printf("\n Enter maximum number of processes");
+    printf("\n Enter maximum number of processes:");
     scanf("%d", &n);
-    struct pcbNode *mainProcess = malloc(sizeof(n)); //struct pcbNode
-    mainProcess ->parent=NULL;
-    mainProcess ->processIndex = 0;
-    mainProcess ->child = NULL;
-    for(int i = 0; i<n-1; i++){
-        struct pcbNode *process = malloc(sizeof(struct pcbNode));
+    PCB *mainProcess = malloc(sizeof(n)); //struct pcbNode
+    mainProcess->parent=0;
+    mainProcess->processIndex = 0;
+    mainProcess->child=NULL;
+    
+    for(int i = 1; i<n; i++){
+        mainProcess[i].parent=-1;
+        mainProcess[i].processIndex = i;
+        mainProcess[i].child=NULL;
+        /*
+        if(i+1 > n-1){
+            mainProcess[i].child=NULL;
+        } else {
+            mainProcess[i].child=i+1;
+        }*/
+    }
+    //print all processes
+    for(int i = 0; i<n; i++){
+        printf("\n PCB[%d]", i);
+        printf("\n Parent: PCB[%d]", mainProcess[i].parent);
+        printf("\n Process Id: %d", mainProcess[i].processIndex);
+        //printf("\n Child: PCB[%d]", mainProcess->child);
     }
 }
 
-void createChild(){}
+void createChild(){
+    //mainProcess[1].parent=1;
+}
 
-void destroyTheChildren(){}
+void destroyChildren(){}
 
 //void op4(){}
 
@@ -34,7 +54,7 @@ int main(){
     int *arr = NULL; // pointer
 
     while(menu == true){
-        printf("Process Creation and Destruction");
+        printf("\n Process Creation and Destruction");
         printf("\n ------------------------------");
         printf("\n Choose an Option (Integer).");
         printf("\n 1.Enter Parameters.");
