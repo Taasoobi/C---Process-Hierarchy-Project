@@ -8,14 +8,16 @@ struct pcbNode
     int processIndex;
     struct pcbNode * child;
 };
-
 typedef struct pcbNode PCB;
+
+//Globally Declare mainProcess
+PCB *mainProcess;
 
 void enterParam(){
     int n;
     printf("\n Enter maximum number of processes:");
     scanf("%d", &n);
-    PCB *mainProcess = malloc(sizeof(n)); //struct pcbNode
+    mainProcess = malloc(sizeof(PCB)*n); //struct pcbNode
     mainProcess->parent=0;
     mainProcess->processIndex = 0;
     mainProcess->child=NULL;
@@ -42,11 +44,20 @@ void enterParam(){
 
 void createChild(){
     //mainProcess[1].parent=1;
+    int resp;
+    printf("\n Enter parent process index:");
+    scanf("%d", &resp);
+
 }
 
-void destroyChildren(){}
+void destroyChildren(){
+
+}
 
 //void op4(){}
+void displayPCB(){
+
+}
 
 int main(){
     bool menu = true;
@@ -88,6 +99,8 @@ int main(){
             //break;
         }
     }
+
+    
 
     printf("Exited Menu Loop");
     free(arr);
