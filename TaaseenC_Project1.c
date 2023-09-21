@@ -6,26 +6,28 @@ struct pcbNode
 {
     int parent;
     int processIndex;
-    struct pcbNode * child;
+    int child;
+    struct pcbNode *link;
 };
-typedef struct pcbNode PCB;
+//typedef struct pcbNode PCB;
 
 //Globally Declare mainProcess
-PCB *mainProcess;
+struct pcbNode *mainProcess;
 
 void enterParam(){
     int n;
     printf("\n Enter maximum number of processes:");
     scanf("%d", &n);
-    mainProcess = malloc(sizeof(PCB)*n); //struct pcbNode
+    mainProcess = malloc(sizeof(struct pcbNode)*n); //struct pcbNode
     mainProcess->parent=0;
     mainProcess->processIndex = 0;
-    mainProcess->child=NULL;
+    mainProcess->child=0;
     
     for(int i = 1; i<n; i++){
         mainProcess[i].parent=-1;
         mainProcess[i].processIndex = i;
-        mainProcess[i].child=NULL;
+        //mainProcess[i].child=NULL;
+        
         /*
         if(i+1 > n-1){
             mainProcess[i].child=NULL;
@@ -42,11 +44,24 @@ void enterParam(){
     }
 }
 
+//void op4(){}
+void displayPCB(){
+    int i = 0;
+    while (mainProcess[i].parent != -1)
+    {
+        printf("PCB[%d] is the parent of PCB[%d]", i, mainProcess[i].child);
+    }
+    
+}
+
 void createChild(){
     //mainProcess[1].parent=1;
     int resp;
-    printf("\n Enter parent process index:");
+    printf("\n\nEnter parent process index: ");
     scanf("%d", &resp);
+    mainProcess[resp].child = mainProcess[resp+1].processIndex;
+    mainProcess[resp+1].parent = mainProcess[resp].processIndex;
+    displayPCB();
 
 }
 
@@ -54,10 +69,6 @@ void destroyChildren(){
 
 }
 
-//void op4(){}
-void displayPCB(){
-
-}
 
 int main(){
     bool menu = true;
@@ -84,8 +95,8 @@ int main(){
 
         } else if(inp==2){
             printf("Chosen: 2\n");
-            printf("\n Enter the Parent Process Index:");
-
+           // printf("\n Enter the Parent Process Index:");
+            createChild();
             //break;
         } else if(inp==3){
             printf("Chosen: 3\n");
