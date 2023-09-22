@@ -29,24 +29,14 @@ void enterParam(){
 }
 
 
-void displayPCB(){
-    int i = 0;
-    
-    /*
-    while (mainProcess[i].parent != -1)
-    {
-        printf("\nPCB[%d] is the parent of PCB[%d]", i, mainProcess[i].child);
-        i++;
-    }
-    */
-}
+
 
 void createChild(){
-    //mainProcess[1].parent=1;
     if(currProcess=maxProcess){
         printf("Max processes reached");
         return;
     }
+    currProcess++;
 
     int i;
     printf("\n\nEnter parent process index: ");
@@ -67,8 +57,18 @@ void createChild(){
 
 }
 
-void destroyChildren(){
+void displayPCB(){
+    int i = 0;
+    while (mainProcess[i].process != NULL)
+    {
+        printf("\nPCB[%d] is the parent of PCB[%d]", i, mainProcess[i].child);
+        i++;
+    }
+    
+}
 
+void destroyChildren(){
+currProcess--;
 }
 
 
