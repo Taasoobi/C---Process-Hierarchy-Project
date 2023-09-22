@@ -18,7 +18,7 @@ void enterParam(){
     
     printf("\n Enter maximum number of processes:");
     scanf("%d", &maxProcess);
-    mainProcess = (PCB*) malloc(sizeof(PCB)*maxProcess); //struct pcbNode
+    mainProcess = (PCB*) malloc(sizeof(PCB)*maxProcess); //struct pcbNode //(PCB*) - type casting. //
     mainProcess[0].process=0;
     mainProcess[0].child=NULL;
     for(int i = 1; i<maxProcess; i++){
@@ -29,7 +29,18 @@ void enterParam(){
 }
 
 
-
+void displayPCB(){
+    int i = 0;
+    
+    PCB *ptr = &mainProcess[i];
+    
+    while (ptr[i].child != NULL)
+    {
+        printf("\nPCB[%d] is the parent of PCB[%d]", i, ptr[i].child);
+        i++;
+    }
+    
+}
 
 void createChild(){
     if(currProcess=maxProcess){
