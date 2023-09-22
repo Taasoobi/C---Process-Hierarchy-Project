@@ -10,6 +10,9 @@ struct pcbNode
 };
 typedef struct pcbNode PCB;
 
+int k = 0;
+int p = 0;
+
 int currProcess;
 int maxProcess;
 PCB *mainProcess;
@@ -28,61 +31,76 @@ void enterParam(){
     currProcess = 1;
 }
 
-
-
-void displayPCB(){
-    int i = 0;
-    
-    PCB *ptr = &mainProcess[i];
-    
-    while (ptr[i].child != NULL)
+/*    while (mainProcess[i].child != NULL)
     {
-        printf("\nPCB[%d] is the parent of PCB[%d]", i, ptr[i].child);
+        printf("\nPCB[%d] is the parent of: ", mainProcess[i].process);
+            while (ptr[k].child != NULL)
+        {
+            printf("\n PCB[%d]", ptr[k].child->process);//was .child->process
+            k=ptr[k].child->process;
+        }
         i++;
     }
-    
+*/
+
+void displayPCB(){ 
+
+    PCB *ptr;
+
+    for (int i = 0; i < maxProcess; i++)
+    {
+        if (mainProcess[i].process != -1)
+        {
+            printf("\n PCB[%d] is the parent of: ", i);
+        }
+        PCB *ptr = &mainProcess[i];
+        while (ptr->child != NULL)
+        {
+            printf("PCB[%d] ", ptr->child->process);
+            ptr=ptr->child;
+        }
+    }
+    //i++;
 }
 
 void createChild(){
-    if(currProcess=maxProcess){
+    if(currProcess==maxProcess){
         printf("Max processes reached");
         return;
     }
-    currProcess++;
+    
 
     int i;
     printf("\n\nEnter parent process index: ");
     scanf("%d", &i);
     PCB* n = &mainProcess[i];
+    
+    if(n->process = -1){
+        n->process = i;
+    }
+
     while (n->child != NULL)
     {
         n = n->child;
     }
     
 /* allocate memory for new child process, initilize fields */
-    PCB* new_child = (PCB*) malloc(sizeof(PCB));
-    new_child->process = i;
-    new_child->child = NULL;
-    n->child = new_child;
-    
+    PCB* newChild = (PCB*) malloc(sizeof(PCB));
+    newChild->process = currProcess;//was currProcess
+    newChild->child = NULL;
+    n->child = newChild;
+    currProcess++;
+    //printf("\nNew Child Process: [%d]", newChild->process);
+    //printf("\nN Child Process: %d", n->child->process);
+
     displayPCB();
-
 }
+//1 5 2 0 2 0 2 2
 
-void displayPCB(){
-    int i = 0;
-    while (mainProcess[i].process != NULL)
-    {
-        printf("\nPCB[%d] is the parent of PCB[%d]", i, mainProcess[i].child);
-        i++;
-    }
-    
-}
 
 void destroyChildren(){
 currProcess--;
 }
-
 
 int main(){
     bool menu = true;
