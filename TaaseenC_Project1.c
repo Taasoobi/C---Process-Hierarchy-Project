@@ -10,7 +10,7 @@ struct pcbNode
 };
 typedef struct pcbNode PCB;
 
-int k = 0;
+//int k = 0;
 int p = 0;
 
 int currProcess;
@@ -30,18 +30,6 @@ void enterParam(){
     }
     currProcess = 1;
 }
-
-/*    while (mainProcess[i].child != NULL)
-    {
-        printf("\nPCB[%d] is the parent of: ", mainProcess[i].process);
-            while (ptr[k].child != NULL)
-        {
-            printf("\n PCB[%d]", ptr[k].child->process);//was .child->process
-            k=ptr[k].child->process;
-        }
-        i++;
-    }
-*/
 
 void displayPCB(){ 
 
@@ -63,27 +51,54 @@ void displayPCB(){
     //i++;
 }
 
+void freeBranch(PCB *ptr1){
+    
+    if(ptr1->child != NULL)
+    {
+        freeBranch(ptr1->child);
+    } else {
+        if (mainProcess[ptr1->process].process != -1)
+        {
+            mainProcess[ptr1->process].process = -1;
+            freeBranch(mainProcess[ptr1->process].child);
+            mainProcess[ptr1->process].child=NULL;
+        }
+        free(ptr1);
+        currProcess--;
+        return;
+    }
+}
+
+void destroy2(){
+    PCB *ptr1;
+    int d;
+    printf("\n Enter index of process of which descendants will be destroyed: ");
+    scanf("%d", &d);
+    
+    ptr1 = &mainProcess[d];
+    freeBranch(ptr1);
+    ptr1->child=NULL;
+
+    displayPCB();
+    
+}
+
 void createChild(){
     if(currProcess==maxProcess){
         printf("Max processes reached");
         return;
     }
-    
-
     int i;
     printf("\n\nEnter parent process index: ");
     scanf("%d", &i);
-    PCB* n = &mainProcess[i];
-    
+    PCB* n = &mainProcess[i]; 
     if(n->process = -1){
         n->process = i;
     }
-
     while (n->child != NULL)
     {
         n = n->child;
     }
-    
 /* allocate memory for new child process, initilize fields */
     PCB* newChild = (PCB*) malloc(sizeof(PCB));
     newChild->process = currProcess;//was currProcess
@@ -92,15 +107,50 @@ void createChild(){
     currProcess++;
     //printf("\nNew Child Process: [%d]", newChild->process);
     //printf("\nN Child Process: %d", n->child->process);
-
     displayPCB();
 }
 //1 5 2 0 2 0 2 2
 
+/*
+           while (ptr->child != NULL)
+           {
+            free(ptr->child);
+            currProcess--;
+           }
+*/
 
+/*
 void destroyChildren(){
-currProcess--;
-}
+int k;
+printf("\n Enter the index of the process whose descendants are to be destroyed: ");
+scanf("%d", &k);
+//PCB *ptr;
+PCB* ptr1 = &mainProcess;
+
+    for (int i = 0; i < maxProcess; i++)
+    {
+        if(k == mainProcess[i].process){
+        /*
+           while (ptr->child != NULL)
+           {
+            free(ptr->child);
+            currProcess--;
+           } //
+           free(mainProcess[i].child);
+           currProcess--; // I need to multiply it by how many items in the process there are
+           return;
+        }
+        if (mainProcess[i].process != -1){   
+            if (k==ptr1->process){
+                while (ptr1->child != NULL){
+                    free(ptr1->child);
+                    currProcess--;
+                }
+            }
+        }
+    }
+
+}*/
 
 int main(){
     bool menu = true;
@@ -121,22 +171,18 @@ int main(){
             printf("Chosen: 1\n");
             //Prompts for max processes and creates first node
             enterParam();
-
         } else if(inp==2){
             printf("Chosen: 2\n");
            // printf("\n Enter the Parent Process Index:");
             createChild();
-            //break;
         } else if(inp==3){
             printf("Chosen: 3\n");
-            //break;
+            destroy2();
         } else if(inp==4){
             printf("Chosen: 4\n");
             menu=false;
-            //break;
         } else {
             printf("Error Choose a number 1-4.\n");
-            //break;
         }
     }
 
